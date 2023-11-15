@@ -41,6 +41,7 @@ RUN apt-get update && apt-get install -y \
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null && \
     apt-get update && apt-get install -y \
         ros-foxy-desktop \
+        ros-foxy-rmw-cyclonedds-cpp \
         python3-argcomplete \
         python3-colcon-common-extensions && \
     rm -rf /var/lib/apt/lists/*
