@@ -17,8 +17,5 @@ docker build . \
     --build-arg UID=$(id -g) \
     --build-arg GID=$(id -g) \
     --build-arg NUM_THREADS=${NUM_THREADS} \
-    --build-arg RMW_IMPLEMENTATION=${RMW_IMPLEMENTATION} \
-    --build-arg ROS_DOMAIN_ID=${ROS_DOMAIN_ID} \
-    --build-arg ROS_LOCALHOST_ONLY=${ROS_LOCALHOST_ONLY} \
     -f Dockerfile \
     -t ros_bridge:latest
