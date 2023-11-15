@@ -81,8 +81,7 @@ RUN set -x && \
         source /opt/ros/foxy/setup.bash; \
         colcon build"
 
-RUN mkdir -p /home/${USER}/catkin_ws/src && \
-    chown -R ${UID}:${GID} /home/${USER}
+RUN chown -R ${UID}:${GID} /home/${USER}
 
 WORKDIR /home/${USER}
 USER ${UID}:${GID}
