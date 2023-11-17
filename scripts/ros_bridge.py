@@ -1,4 +1,4 @@
-import argparse
+import os
 import os.path as osp
 import yaml
 from docker_helper import DockerMounts, RosDockerContainer
@@ -18,6 +18,9 @@ class RosBridgeContainer(RosDockerContainer):
         super().__init__(image_name, container_name)
 
     def create_containter(self, mounts: RosBridgeMounts=None, net='host'):
+        os.makedirs(osp.join(osp.dirname(__file__), "../../ros1_msgs_ws/src"), exist_ok=True)
+        os.makedirs(osp.join(osp.dirname(__file__), "../../ros2_msgs_ws/src"), exist_ok=True)
+
         if mounts is None:
             mounts = RosBridgeMounts()
         if type(mounts) is not RosBridgeMounts:
