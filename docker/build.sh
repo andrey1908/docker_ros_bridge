@@ -2,15 +2,6 @@
 
 cd $(dirname $0)
 
-if ! [[ -d "context" ]]
-then
-    bash context.sh
-    if [ $? -ne 0 ]; then
-        rm -rf context
-        exit -1
-    fi
-fi
-
 NUM_THREADS=${1:-$(nproc)}
 
 docker build . \

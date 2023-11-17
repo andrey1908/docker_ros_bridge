@@ -1,6 +1,5 @@
-#!/bin/env python3
+#!/bin/bash
 
-from docker_helper import RosDockerContainer
+cd $(dirname $0)
 
-ros_bridge = RosDockerContainer("ros_bridge:latest", "ros_bridge")
-ros_bridge.create_containter()
+/bin/env python3 ../scripts/run_ros_bridge.py

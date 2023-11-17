@@ -16,9 +16,6 @@ RUN useradd -m ${USER} --uid=${UID} && \
     usermod -s /bin/bash ${USER} && \
     usermod -a -G sudo ${USER}
 
-COPY context/ /context
-WORKDIR /context
-
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     clang \
@@ -50,39 +47,8 @@ RUN apt-get update && apt-get install -y \
 RUN PYTHON3_PATH=`which python3` && \
     ln -s $PYTHON3_PATH `dirname $PYTHON3_PATH`/python
 
-# Install ros1_bridge
-ARG ROS1_BRIDGE_COMMIT=689a932499befbd1ec3cb273a1054430e55a43c3
-RUN set -x && \
-    tar -zxf ros1_bridge.tar.gz && \
-    cd ros1_bridge && \
-    git config --global --add safe.directory /context/ros1_bridge && \
-    git checkout ${ROS1_BRIDGE_COMMIT} && \
-    cd .. && \
-    mkdir -p /home/${USER}/ros1_bridge_ws/src && \
-    mv ros1_bridge /home/${USER}/ros1_bridge_ws/src && \
-    cd /home/${USER}/ros1_bridge_ws && \
-    /bin/bash -c " \
-        source /opt/ros/noetic/setup.bash; \
-        source /opt/ros/foxy/setup.bash; \
-        colcon build --packages-select ros1_bridge --cmake-force-configure --cmake-args -DBUILD_TESTING=FALSE"
-
-# Install ros1_tf_static_bridge
-ARG ROS1_TF_STATIC_BRIDGE_COMMIT=e8e5cde6166c1b063f5595a1af777ac799b27b04
-RUN set -x && \
-    tar -zxf ros1_tf_static_bridge.tar.gz && \
-    cd ros1_tf_static_bridge && \
-    git config --global --add safe.directory /context/ros1_tf_static_bridge && \
-    git checkout ${ROS1_TF_STATIC_BRIDGE_COMMIT} && \
-    cd .. && \
-    mkdir -p /home/${USER}/ros1_tf_static_bridge_ws/src && \
-    mv ros1_tf_static_bridge /home/${USER}/ros1_tf_static_bridge_ws/src && \
-    cd /home/${USER}/ros1_tf_static_bridge_ws && \
-    /bin/bash -c " \
-        source /opt/ros/noetic/setup.bash; \
-        source /opt/ros/foxy/setup.bash; \
-        colcon build"
-
-RUN chown -R ${UID}:${GID} /home/${USER}
+RUN mkdir -p /home/${USER}/colcon_ws/src && \
+    chown -R ${UID}:${GID} /home/${USER}
 
 WORKDIR /home/${USER}
 USER ${UID}:${GID}
