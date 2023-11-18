@@ -1,7 +1,7 @@
 import argparse
-if __name__ == '__main__':
+try:
     from ros_bridge import RosBridgeContainer
-else:
+except ImportError:
     from .ros_bridge import RosBridgeContainer
 
 
