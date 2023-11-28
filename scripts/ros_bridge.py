@@ -147,8 +147,11 @@ class RosBridgeContainer(RosDockerContainer):
         topic_type_str = line.rstrip()[len("Type: "):]
 
         # convert ROS1 topic type name to ROS2
-        topic_type_str = '/'.join(topic_type_str.split('/').insert('msg', 1))
-        return topic_type_str
+        topic_type_str_converted = '/'.join(topic_type_str.split('/').insert('msg', 1))
+
+        print(f"Deduced type of ROS1 topic '{topic}' to '{topic_type_str}' "
+              f"(convered to ROS2 type '{topic_type_str_converted}')")
+        return topic_type_str_converted
 
     def _get_ros2_topic_type_str(self, topic: str):
         command = \
@@ -162,6 +165,8 @@ class RosBridgeContainer(RosDockerContainer):
         line = next((line for line in output.split('\n') if line.startswith("Type: ")), None)
         assert line is not None, "This should not happen"
         topic_type_str = line.rstrip()[len("Type: "):]
+
+        print(f"Deduced type of ROS2 topic '{topic}' to '{topic_type_str}'")
         return topic_type_str
 
     def _get_topic_type_str(self, topic: str):
@@ -189,6 +194,8 @@ class RosBridgeContainer(RosDockerContainer):
         line = next((line for line in output.split('\n') if line.startswith("Type: ")), None)
         assert line is not None, "This should not happen"
         service_type_str = line.rstrip()[len("Type: "):]
+
+        print(f"Deduced type of ROS1 service '{service}' to '{service_type_str}'")
         return service_type_str
     
     def _get_ros2_service_type_str(self, service: str):
@@ -203,6 +210,8 @@ class RosBridgeContainer(RosDockerContainer):
         lines = [line for line in output.split('\n') if len(line.rstrip()) != 0]
         assert len(lines) > 0, "This should not happen"
         service_type_str = lines[-1].rstrip()
+
+        print(f"Deduced type of ROS2 service '{service}' to '{service_type_str}'")
         return service_type_str
 
     def _get_topics_param(self, topics, topic_types):
