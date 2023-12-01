@@ -147,7 +147,9 @@ class RosBridgeContainer(RosDockerContainer):
         topic_type_str = line.rstrip()[len("Type: "):]
 
         # convert ROS1 topic type name to ROS2
-        topic_type_str_converted = '/'.join(topic_type_str.split('/').insert('msg', 1))
+        topic_type_list = topic_type_str.split('/')
+        topic_type_list.insert(1, 'msg')
+        topic_type_str_converted = '/'.join(topic_type_list)
 
         print(f"Deduced type of ROS1 topic '{topic}' to '{topic_type_str}' "
               f"(convered to ROS2 type '{topic_type_str_converted}')")
