@@ -38,7 +38,7 @@ if __name__ == "__main__":
         ros_bridge.print_pairs()
         exit(0)
 
-    if args.topics is None:
+    if not args.topics and not args.services_2_to_1 and not args.services_1_to_2:
         exit(0)
 
     ros_bridge.run_bridge(
