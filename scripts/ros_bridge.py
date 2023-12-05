@@ -137,7 +137,7 @@ class RosBridgeContainer(RosDockerContainer):
         command = \
             f"source ~/ros1_msgs_ws/devel/setup.bash && " \
             f"rostopic info {topic}"
-        res = self.run(command, quiet=True)
+        res = self.check_output(command)
         if res.returncode != 0:
             return None
 
@@ -159,7 +159,7 @@ class RosBridgeContainer(RosDockerContainer):
         command = \
             f"source ~/ros2_msgs_ws/install/setup.bash && " \
             f"ros2 topic info {topic}"
-        res = self.run(command, quiet=True)
+        res = self.check_output(command)
         if res.returncode != 0:
             return None
 
@@ -188,7 +188,7 @@ class RosBridgeContainer(RosDockerContainer):
         command = \
             f"source ~/ros1_msgs_ws/devel/setup.bash && " \
             f"rosservice info {service}"
-        res = self.run(command, quiet=True)
+        res = self.check_output(command)
         if res.returncode != 0:
             return None
 
@@ -204,7 +204,7 @@ class RosBridgeContainer(RosDockerContainer):
         command = \
             f"source ~/ros2_msgs_ws/install/setup.bash && " \
             f"ros2 service type {service}"
-        res = self.run(command, quiet=True)
+        res = self.check_output(command)
         if res.returncode != 0:
             return None
 
