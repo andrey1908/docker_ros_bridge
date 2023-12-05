@@ -17,8 +17,9 @@ def build_parser():
     parser.add_argument('--services-1-to-2-types', type=str, nargs='+')
 
     action = parser.add_mutually_exclusive_group()
-    action.add_argument('--print-pairs', action='store_true')
     action.add_argument('--build', action='store_true')
+    action.add_argument('--print-pairs', action='store_true')
+    action.add_argument('--with-roscore', action='store_true')
 
     return parser
 
@@ -41,7 +42,14 @@ if __name__ == "__main__":
     if not args.topics and not args.services_2_to_1 and not args.services_1_to_2:
         exit(0)
 
+    roscore_started = False
+    if args.with_roscore:
+        if not ros_bridge.roscore_available():
+            ros_bridge.start_roscore()
+            roscore_started = True
     ros_bridge.run_bridge(
         topics=args.topics, topic_types=args.topic_types,
         services_2_to_1=args.services_2_to_1, services_2_to_1_types=args.services_2_to_1_types,
         services_1_to_2=args.services_1_to_2, services_1_to_2_types=args.services_1_to_2_types)
+    if roscore_started:
+        ros_bridge.stop_roscore()
